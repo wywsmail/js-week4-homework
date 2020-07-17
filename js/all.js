@@ -1,5 +1,16 @@
-var app = new Vue({
-  el: "#app",
+var appLogin = new Vue({
+  el:"#appLogin",
+  data:{
+    text:'看得到我嗎？'
+  }
+})
+
+
+
+
+
+var appProduct = new Vue({
+  el: "#appProduct",
   data: {
     product: {}, //新增產品及編輯產品時暫時擺放商品資訊的地方
     // 擺放商品列表的地方
@@ -141,3 +152,4 @@ var app = new Vue({
     // },
   },
 });
+
