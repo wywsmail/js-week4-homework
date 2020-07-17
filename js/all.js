@@ -19,12 +19,22 @@ var appLogin = new Vue({
       const api = `${apiPath}auth/login`;
       axios.post(api,vm.user).then((res)=>{
         console.log(res);
+        vm.token = res.data.token;
+        vm.expired = res.data.expired;
+        document.cookie = `week4Token = ${vm.token}; expires = ${new Date(vm.expired * 1000)};path=/`;
       }).catch((err) =>{
         console.log(err);
       })
     },
-    signout(){},
-    getData(){}
+    signout(){
+      // var vm = this;
+      document.cookie = `week4Token = ; expires = ;path=/`;
+    },
+    getData(){
+      var vm = this;
+      vm.token = document.cookie.replace(/(?:(?:^|.*;\s*)week4Token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+      console.log('token',vm.token);
+    }
   }
 })
 
