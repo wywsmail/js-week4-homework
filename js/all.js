@@ -1,7 +1,30 @@
+const uuid = '3e2bba7c-e3f2-4bb1-bf9c-1c406f181d46';
+const apiPath = 'https://course-ec-api.hexschool.io/api/';
+
+
 var appLogin = new Vue({
   el:"#appLogin",
-  data:{
-    text:'看得到我嗎？'
+  data(){
+    return{
+      user:{
+        email:'',
+        password:''
+      },
+      token:''
+    }
+  },
+  methods:{
+    signin(){
+      var vm = this;
+      const api = `${apiPath}auth/login`;
+      axios.post(api,vm.user).then((res)=>{
+        console.log(res);
+      }).catch((err) =>{
+        console.log(err);
+      })
+    },
+    signout(){},
+    getData(){}
   }
 })
 
