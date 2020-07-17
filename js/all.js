@@ -22,6 +22,7 @@ var appLogin = new Vue({
         vm.token = res.data.token;
         vm.expired = res.data.expired;
         document.cookie = `week4Token = ${vm.token}; expires = ${new Date(vm.expired * 1000)};path=/`;
+        window.location = 'productlist.html';
       }).catch((err) =>{
         console.log(err);
       })
