@@ -24,11 +24,7 @@ var app = new Vue({
         vm.token = res.data.token;
         vm.expired = res.data.expired;
         document.cookie = `week4Token = ${vm.token}; expires = ${new Date(vm.expired * 1000)};path=/`;
-        
-        
-        // console.log(vm.productArray);
         window.location = 'productlist.html';
-        // vm.addProduct();
       }).catch((err) =>{
         console.log(err);
       })
@@ -37,13 +33,13 @@ var app = new Vue({
       // var vm = this;
       document.cookie = `week4Token = ; expires = ;path=/`;
     },
-    addProduct(){
+    getData(){
       var vm = this;
       vm.token = document.cookie.replace(/(?:(?:^|.*;\s*)week4Token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
       console.log('token',vm.token);
       
       const api = `${apiPath}${uuid}/ec/products`;
-      axios.defaults.headers.common.Authorization = `Bearer ${vm.token}`;
+      axios.defaults.headers.Authorization = `Bearer ${vm.token}`;
       axios.get(api).then((res)=>{
         console.log(res.data.data);
         
@@ -87,9 +83,23 @@ var app = new Vue({
       }
       $('#delProductModal').modal('hide');
     },
+    addProduct(){
+      var vm = this;
+      vm.token = document.cookie.replace(/(?:(?:^|.*;\s*)week4Token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+      console.log('token', vm.token);
+      const api = `${apiPath}${uuid}/admin/storage`;
+      axios.defaults.headers.Authorization = `Bearer ${vm.token}`;
+      console.log(vm.product);
+      axios.post(api,vm.product).then((res)=>{
+        console.log(res);
+      }).catch((err)=>{
+        console.log(err);
+      })
+    },
+    delAllProduct(){}
   },
   created(){
-    this.addProduct();
+    this.getData();
   }
 })
 
