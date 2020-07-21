@@ -64,10 +64,9 @@
                 <form>
                   <div class="form-group">
                     <label for="imageUrl">輸入圖片網址</label>
-                    <input type="text" class="form-control" id="imageUrl" placeholder="請輸入圖片網址"
-                      v-model.trim="product.imageUrl">
+                    <input type="text" class="form-control" id="imageUrl" placeholder="請輸入圖片網址" v-model.trim="product.imageUrl[0]">
                   </div>
-                  <img class="img-fluid" v-bind:src="product.imageUrl" alt="">
+                  <img class="img-fluid" v-bind:src="product.imageUrl[0]" alt="">
                 </form>
               </div>
               <div class="col-8">

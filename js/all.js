@@ -11,7 +11,9 @@ var app = new Vue({
         password:''
       },
       token:'',
-      product:{},
+      product:{
+        imageUrl:[]
+      },
       productArray:[]
     }
   },
@@ -42,7 +44,6 @@ var app = new Vue({
       axios.defaults.headers.Authorization = `Bearer ${vm.token}`;
       axios.get(api).then((res)=>{
         console.log(res.data.data);
-        
         vm.productArray.push(...res.data.data);
         console.log(vm.productArray);
         // window.location = 'productlist.html';
@@ -54,7 +55,7 @@ var app = new Vue({
     openModal(isNew, item) {
       switch (isNew) {
         case 'new': 
-          this.product = {};
+          this.product = { imageUrl: [] };
           $('#productModal').modal('show');  //開啟 Modal 欄位空白
           break;
         case 'edit':
@@ -87,15 +88,18 @@ var app = new Vue({
       var vm = this;
       vm.token = document.cookie.replace(/(?:(?:^|.*;\s*)week4Token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
       console.log('token', vm.token);
-      const api = `${apiPath}${uuid}/admin/storage`;
+      const api = `${apiPath}${uuid}/admin/ec/product`;
       axios.defaults.headers.Authorization = `Bearer ${vm.token}`;
-      console.log(vm.product);
+      // console.log(vm.product);
+      // vm.produdct = {imageUrl:[]};
       axios.post(api,vm.product).then((res)=>{
         console.log(res);
+        vm.productArray.push(res.data.data);
       }).catch((err)=>{
-        console.log(err);
-      })
-    },
+        console.log(err)
+      })    
+      $('#productModal').modal('hide');
+;    },
     delAllProduct(){}
   },
   created(){
