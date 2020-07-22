@@ -1,60 +1,60 @@
-const uuid = '3e2bba7c-e3f2-4bb1-bf9c-1c406f181d46';
-const apiPath = 'https://course-ec-api.hexschool.io/api/';
+// const uuid = '3e2bba7c-e3f2-4bb1-bf9c-1c406f181d46';
+// const apiPath = 'https://course-ec-api.hexschool.io/api/';
 
 
 var app = new Vue({
-  el:"#app",
-  data(){
-    return{
-      user:{
-        email:'',
-        password:''
+  el: "#app",
+  data() {
+    return {
+      user: {
+        email: '',
+        password: ''
       },
-      token:'',
-      product:{
-        imageUrl:[]
+      token: '',
+      product: {
+        imageUrl: []
       },
-      productArray:[]
+      productArray: [],
+      api: {
+        uuid: '3e2bba7c-e3f2-4bb1-bf9c-1c406f181d46',
+        path: 'https://course-ec-api.hexschool.io/api/'
+      },
+      isNew: ''
     }
   },
-  methods:{
-    signin(){
+  methods: {
+    signin() {
       var vm = this;
-      const api = `${apiPath}auth/login`;
-      axios.post(api,vm.user).then((res)=>{
+      const api = `${vm.api.path}auth/login`;
+      axios.post(api, vm.user).then((res) => {
         console.log(res);
-        vm.token = res.data.token;
-        vm.expired = res.data.expired;
-        document.cookie = `week4Token = ${vm.token}; expires = ${new Date(vm.expired * 1000)};path=/`;
+        const token = res.data.token;
+        const expired = res.data.expired;
+        // week4Token 是存在 cookie 內的 token 的名字
+        document.cookie = `week4Token = ${token}; expires = ${new Date(expired * 1000)};path=/`;
         window.location = 'productlist.html';
-      }).catch((err) =>{
+      }).catch((err) => {
         console.log(err);
       })
     },
-    signout(){
+    signout() {
       // var vm = this;
       document.cookie = `week4Token = ; expires = ;path=/`;
     },
-    getData(){
+    getData() {
       var vm = this;
-      vm.token = document.cookie.replace(/(?:(?:^|.*;\s*)week4Token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-      console.log('token',vm.token);
-      
-      const api = `${apiPath}${uuid}/ec/products`;
-      axios.defaults.headers.Authorization = `Bearer ${vm.token}`;
+      const api = `${vm.api.path}${vm.api.uuid}/admin/ec/products`;
       axios.get(api).then((res)=>{
-        console.log(res.data.data);
-        vm.productArray.push(...res.data.data);
-        console.log(vm.productArray);
-        // window.location = 'productlist.html';
+        console.log(res);
+        vm.productArray = res.data.data
       }).catch((err) =>{
         console.log(err);
       })
     },
-        // 此為判別要打開哪一種 modal 的函式
+    // 此為判別要打開哪一種 modal 的函式
     openModal(isNew, item) {
       switch (isNew) {
-        case 'new': 
+        case 'new':
           this.product = { imageUrl: [] };
           $('#productModal').modal('show');  //開啟 Modal 欄位空白
           break;
@@ -84,25 +84,28 @@ var app = new Vue({
       }
       $('#delProductModal').modal('hide');
     },
-    addProduct(){
-      var vm = this;
-      vm.token = document.cookie.replace(/(?:(?:^|.*;\s*)week4Token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-      console.log('token', vm.token);
-      const api = `${apiPath}${uuid}/admin/ec/product`;
-      axios.defaults.headers.Authorization = `Bearer ${vm.token}`;
+    updateProduct() {
+      // var vm = this;
+      // console.log('token', vm.token);
+      // const api = `${apiPath}${uuid}/admin/ec/product`;
       // console.log(vm.product);
-      // vm.produdct = {imageUrl:[]};
-      axios.post(api,vm.product).then((res)=>{
-        console.log(res);
-        vm.productArray.push(res.data.data);
-      }).catch((err)=>{
-        console.log(err)
-      })    
-      $('#productModal').modal('hide');
-;    },
-    delAllProduct(){}
+      // axios.post(api,vm.product).then((res)=>{
+      //   console.log(vm.product);
+      //   console.log(res);
+      //   vm.productArray.push(res.data.data);
+      //   console.log(vm.productArray);
+      //   vm.getData();
+      // }).catch((err)=>{
+      //   console.log(err)
+      // });
+      // $('#productModal').modal('hide');
+      ;
+    },
+    delAllProduct() { }
   },
-  created(){
+  created() {
+    this.token = document.cookie.replace(/(?:(?:^|.*;\s*)week4Token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    axios.defaults.headers.common[`Authorization`] = `Bearer ${this.token}`
     this.getData();
   }
 })
@@ -204,7 +207,7 @@ var app = new Vue({
 //     //   this.product = {};
 //     //   $('#productModal').modal('hide');
 //     // },
-    
+
 //     // 此為判別要打開哪一種 modal 的函式
 //     openModal(isNew, item) {
 //       switch (isNew) {
@@ -238,7 +241,7 @@ var app = new Vue({
 //       }
 //       $('#delProductModal').modal('hide');
 //     },
-    
+
 //     // 此為 Ray 助教的箭頭函式寫法
 //     // delProduct() {
 //     //   if (this.product.id) {
