@@ -1,8 +1,10 @@
-// const uuid = '3e2bba7c-e3f2-4bb1-bf9c-1c406f181d46';
-// const apiPath = 'https://course-ec-api.hexschool.io/api/';
+import pagination from './pagination.js';
+import modal from './modal.js';
 
+Vue.component('pagination',pagination);
+Vue.component('modal',modal);
 
-var app = new Vue({
+new Vue({
   el: "#app",
   data() {
     return {
@@ -15,6 +17,7 @@ var app = new Vue({
         imageUrl: []
       },
       productArray: [],
+      pagination:{},
       api: {
         uuid: '3e2bba7c-e3f2-4bb1-bf9c-1c406f181d46',
         path: 'https://course-ec-api.hexschool.io/api/'
@@ -41,12 +44,14 @@ var app = new Vue({
       // var vm = this;
       document.cookie = `week4Token = ; expires = ;path=/`;
     },
-    getData() {
+    getData(num = 1) {
+      // console.log(num);
       var vm = this;
-      const api = `${vm.api.path}${vm.api.uuid}/admin/ec/products`;
+      const api = `${vm.api.path}${vm.api.uuid}/admin/ec/products?page=${num}`;
       axios.get(api).then((res)=>{
         console.log(res);
-        vm.productArray = res.data.data
+        vm.productArray = res.data.data;
+        vm.pagination = res.data.meta.pagination;
       }).catch((err) =>{
         console.log(err);
       })
@@ -85,20 +90,20 @@ var app = new Vue({
       $('#delProductModal').modal('hide');
     },
     updateProduct() {
-      // var vm = this;
-      // console.log('token', vm.token);
-      // const api = `${apiPath}${uuid}/admin/ec/product`;
-      // console.log(vm.product);
-      // axios.post(api,vm.product).then((res)=>{
-      //   console.log(vm.product);
-      //   console.log(res);
-      //   vm.productArray.push(res.data.data);
-      //   console.log(vm.productArray);
-      //   vm.getData();
-      // }).catch((err)=>{
-      //   console.log(err)
-      // });
-      // $('#productModal').modal('hide');
+      var vm = this;
+      console.log('token', vm.token);
+      const api = `${vm.api.path}${vm.api.uuid}/admin/ec/product`;
+      console.log(vm.product);
+      axios.post(api,vm.product).then((res)=>{
+        console.log(vm.product);
+        console.log(res);
+        vm.productArray.push(res.data.data);
+        console.log(vm.productArray);
+        vm.getData();
+      }).catch((err)=>{
+        console.log(err)
+      });
+      $('#productModal').modal('hide');
       ;
     },
     delAllProduct() { }
