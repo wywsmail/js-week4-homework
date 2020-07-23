@@ -74,12 +74,13 @@ export default {
   data() {
     return {
       product: {imageUrl:[
-        
+
       ]}
     }
   },
   methods: {
     updataProduct() {
     }
-  }
+  },
+  props:['product']
 }

@@ -64,8 +64,13 @@ new Vue({
           $('#productModal').modal('show');  //開啟 Modal 欄位空白
           break;
         case 'edit':
-          this.product = Object.assign({}, item);  //淺層複製方式
-          $('#productModal').modal('show');  //開啟 Modal 欄位包含產品資料
+          const api = `${this.api.path}${this.api.uuid}/admin/ec/product/${item.id}`;
+          axios.get(api)
+            .then((res)=>{
+              console.log(res);
+              this.product = res.data.data;
+              $('#productModal').modal('show');  //開啟 Modal 欄位包含產品資料
+            })
           break;
         case 'delete':
           $('#delProductModal').modal('show');  //開啟刪除產品的 Modal
