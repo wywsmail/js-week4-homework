@@ -1,5 +1,5 @@
-export default{
-  template:`<!-- 此 productModal 「新增」與「編輯」共用 -->
+export default {
+  template: `<!-- 此 productModal 「新增」與「編輯」共用 -->
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header bg-primary">新增產品</div>
@@ -71,14 +71,15 @@ export default{
           </div>
         </div>
       </div>`,
-      data(){
-        return{
-          product:{}
-        }
-      },
-      methods:{
-        updataProduct(){
-          
-        }
-      }
+  data() {
+    return {
+      product: {imageUrl:[
+        
+      ]}
+    }
+  },
+  methods: {
+    updataProduct() {
+    }
+  }
 }
