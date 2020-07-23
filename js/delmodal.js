@@ -30,7 +30,10 @@ export default {
     delProduct() {
       let url = `${this.api.path}${this.api.uuid}/admin/ec/product/${this.product.id}`;
       axios.delete(url, this.product)
-        .then.$emit('update')
+        .then(res=>{
+          this.$emit('update')
+        })
+      $('#delProductModal').modal('hide');
     }
   },
   props: ['product', 'api']

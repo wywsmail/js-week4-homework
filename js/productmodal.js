@@ -80,10 +80,19 @@ export default {
   },
   methods: {
     updateProduct() {
-      let url = `${this.api.path}${this.api.uuid}/admin/ec/product/${this.product.id}`;
-      axios.patch(url,this.product)
-        .then.$emit('update')
+      let url = `${this.api.path}${this.api.uuid}/admin/ec/product`;
+      let httpMethod = 'post';
+      if (!this.isNew) {
+        url = `${this.api.path}${this.api.uuid}/admin/ec/product/${this.product.id}`;
+        httpMethod = 'patch';
+      }
+      axios[httpMethod](url, this.product).then(() => {
+        $('#productModal').modal('hide');
+        this.$emit('update');
+      }).catch((err) => {
+        console.log(err)
+      })
     }
   },
-  props: ['product','api']
+  props: ['product', 'api','isNew']
 }
