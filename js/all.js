@@ -22,7 +22,8 @@ new Vue({
         uuid: '3e2bba7c-e3f2-4bb1-bf9c-1c406f181d46',
         path: 'https://course-ec-api.hexschool.io/api/'
       },
-      isNew: ''
+      isNew: '',
+      loadingBtn:''
     }
   },
   methods: {
@@ -64,11 +65,13 @@ new Vue({
           $('#productModal').modal('show');  //開啟 Modal 欄位空白
           break;
         case 'edit':
+          this.loadingBtn = item.id;
           const api = `${this.api.path}${this.api.uuid}/admin/ec/product/${item.id}`;
           axios.get(api)
             .then((res)=>{
               console.log(res);
               this.product = res.data.data;
+              this.loadingBtn = '';
               $('#productModal').modal('show');  //開啟 Modal 欄位包含產品資料
             })
           break;

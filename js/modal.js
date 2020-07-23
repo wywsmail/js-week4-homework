@@ -80,7 +80,10 @@ export default {
   },
   methods: {
     updataProduct() {
+      let url = `${this.api.path}${this.api.uuid}/admin/ec/product/${this.product.id}`;
+      axios.patch(url,this.product)
+        .then.$emit('update')
     }
   },
-  props:['product']
+  props:['product','api']
 }
