@@ -1,8 +1,10 @@
 import pagination from './pagination.js';
-import modal from './modal.js';
+import productmodal from './productmodal.js';
+import delmodal from './delmodal.js';
 
 Vue.component('pagination',pagination);
-Vue.component('modal',modal);
+Vue.component('productmodal', productmodal);
+Vue.component('delmodal', delmodal);
 
 new Vue({
   el: "#app",

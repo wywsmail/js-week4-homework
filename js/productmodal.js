@@ -73,17 +73,17 @@ export default {
       </div>`,
   data() {
     return {
-      product: {imageUrl:[
+      // product: {imageUrl:[
 
-      ]}
+      // ]}
     }
   },
   methods: {
-    updataProduct() {
+    updateProduct() {
       let url = `${this.api.path}${this.api.uuid}/admin/ec/product/${this.product.id}`;
       axios.patch(url,this.product)
         .then.$emit('update')
     }
   },
-  props:['product','api']
+  props: ['product','api']
 }
